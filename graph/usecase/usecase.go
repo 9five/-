@@ -3,12 +3,14 @@ package usecase
 import (
 	"algorithm/domain"
 	"errors"
+	"fmt"
 )
 
 // 貝爾曼福特演算法
 type BellmanFord struct {
-	g  domain.Graph
-	bs map[string]domain.BestSoln
+	g     domain.Graph
+	bs    map[string]domain.BestSoln
+	quene []domain.Node
 }
 
 func NewBellmanFord(g domain.Graph) domain.GraphAlgorithmUsecase {
@@ -26,7 +28,9 @@ func (bf *BellmanFord) Process(start string) error {
 	bf.bs[start] = domain.BestSoln{Weight: 0}
 
 	_, position := bf.g.Contain(start)
-	bf.subexecution(0, bf.g.Nodes[position])
+	bf.quene = append(bf.quene, bf.g.Nodes[position])
+	bf.subexecution(start)
+	fmt.Println()
 
 	return nil
 }
@@ -35,17 +39,20 @@ func (bf *BellmanFord) Return() map[string]domain.BestSoln {
 	return bf.bs
 }
 
-func (bf *BellmanFord) subexecution(execNum int, node domain.Node) {
-	if execNum >= len(bf.g.Nodes) {
+func (bf *BellmanFord) subexecution(start string) {
+	if len(bf.quene) == 0 {
 		return
 	}
+	var node domain.Node
+	node, bf.quene = bf.quene[0], bf.quene[1:]
 	for _, v := range node.Edges {
 		if bs, ok := bf.bs[v.To]; !ok || bs.Weight > bf.bs[node.Sign].Weight+v.Weight {
 			bf.bs[v.To] = domain.BestSoln{PrevSign: node.Sign, Weight: bf.bs[node.Sign].Weight + v.Weight}
+			_, position := bf.g.Contain(v.To)
+			bf.quene = append(bf.quene, bf.g.Nodes[position])
 		}
-		_, position := bf.g.Contain(v.To)
-		bf.subexecution(execNum+1, bf.g.Nodes[position])
 	}
+	bf.subexecution(start)
 }
 
 // 戴克斯特拉演算法

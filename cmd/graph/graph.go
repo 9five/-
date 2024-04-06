@@ -7,6 +7,7 @@ import (
 )
 
 func main() {
+	nodes := []string{"A", "B", "C", "D", "E", "F", "G"}
 	adjacencyList := make(map[string]map[string]int)
 	adjacencyList["A"] = map[string]int{
 		"B": 9,
@@ -47,8 +48,25 @@ func main() {
 		"F": 4,
 	}
 
+	start := "A"
+	bellmanFordFunc(nodes, adjacencyList, start)
+}
+
+func bellmanFordFunc(nodes []string, adjacencyList map[string]map[string]int, start string) {
 	gRepo := _graphRepository.NewGraphRepository(7)
-	if err := gRepo.AddNode("A", "B", "C", "D", "E", "F", "G"); err != nil {
+	if err := gRepo.AddNode(nodes...); err != nil {
+		fmt.Println(err.Error())
+	}
+	gRepo.AddAdjacencyList(adjacencyList, start)
+	fmt.Println(gRepo.Return())
+	g := _graphUsecase.NewBellmanFord(gRepo.Return())
+	g.Process(start)
+	fmt.Println(g.Return())
+}
+
+func dijkstrasFunc(nodes []string, adjacencyList map[string]map[string]int, start string) {
+	gRepo := _graphRepository.NewGraphRepository(7)
+	if err := gRepo.AddNode(nodes...); err != nil {
 		fmt.Println(err.Error())
 	}
 	for k1, v1 := range adjacencyList {
@@ -59,7 +77,4 @@ func main() {
 		}
 	}
 	fmt.Println(gRepo.Return())
-	g := _graphUsecase.NewBellmanFord(gRepo.Return())
-	g.Process("A")
-
 }

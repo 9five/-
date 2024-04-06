@@ -42,6 +42,21 @@ func (gr *GraphRepository) AddEdge(from, to string, weight int) error {
 	return nil
 }
 
+func (gr *GraphRepository) AddAdjacencyList(adjacencyList map[string]map[string]int, start string) error {
+	for k1, v1 := range adjacencyList {
+		for k2, v2 := range v1 {
+			if k2 == start {
+				continue
+			}
+			if err := gr.AddEdge(k1, k2, v2); err != nil {
+				fmt.Println(err.Error())
+			}
+		}
+	}
+
+	return nil
+}
+
 func (gr *GraphRepository) Return() domain.Graph {
 	return gr.g
 }

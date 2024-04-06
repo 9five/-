@@ -27,6 +27,7 @@ type BestSoln struct {
 type GraphRepository interface {
 	AddNode(s ...string) error
 	AddEdge(form, to string, weight int) error
+	AddAdjacencyList(adjacencyList map[string]map[string]int, start string) error
 	Return() Graph
 }
 
