@@ -49,7 +49,7 @@ func (gr *GraphRepository) AddAdjacencyList(adjacencyList map[string]map[string]
 				continue
 			}
 			if err := gr.AddEdge(k1, k2, v2); err != nil {
-				fmt.Println(err.Error())
+				return err
 			}
 		}
 	}

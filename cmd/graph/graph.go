@@ -57,7 +57,9 @@ func bellmanFordFunc(nodes []string, adjacencyList map[string]map[string]int, st
 	if err := gRepo.AddNode(nodes...); err != nil {
 		fmt.Println(err.Error())
 	}
-	gRepo.AddAdjacencyList(adjacencyList, start)
+	if err := gRepo.AddAdjacencyList(adjacencyList, start); err != nil {
+		fmt.Println(err.Error())
+	}
 	fmt.Println(gRepo.Return())
 	g := _graphUsecase.NewBellmanFord(gRepo.Return())
 	g.Process(start)
@@ -69,12 +71,8 @@ func dijkstrasFunc(nodes []string, adjacencyList map[string]map[string]int, star
 	if err := gRepo.AddNode(nodes...); err != nil {
 		fmt.Println(err.Error())
 	}
-	for k1, v1 := range adjacencyList {
-		for k2, v2 := range v1 {
-			if err := gRepo.AddEdge(k1, k2, v2); err != nil {
-				fmt.Println(err.Error())
-			}
-		}
+	if err := gRepo.AddAdjacencyList(adjacencyList, start); err != nil {
+		fmt.Println(err.Error())
 	}
 	fmt.Println(gRepo.Return())
 }

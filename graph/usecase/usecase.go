@@ -21,15 +21,14 @@ func NewBellmanFord(g domain.Graph) domain.GraphAlgorithmUsecase {
 }
 
 func (bf *BellmanFord) Process(start string) error {
-	if exist, _ := bf.g.Contain(start); !exist {
+	if exist, position := bf.g.Contain(start); exist {
+		bf.bs[start] = domain.BestSoln{Weight: 0}
+
+		bf.quene = append(bf.quene, bf.g.Nodes[position])
+		bf.subexecution(start)
+	} else {
 		return errors.New("\"" + start + "\" not exist")
 	}
-
-	bf.bs[start] = domain.BestSoln{Weight: 0}
-
-	_, position := bf.g.Contain(start)
-	bf.quene = append(bf.quene, bf.g.Nodes[position])
-	bf.subexecution(start)
 	fmt.Println()
 
 	return nil
