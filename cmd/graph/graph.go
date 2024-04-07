@@ -49,7 +49,8 @@ func main() {
 	}
 
 	start := "A"
-	bellmanFordFunc(nodes, adjacencyList, start)
+	// bellmanFordFunc(nodes, adjacencyList, start)
+	dijkstrasFunc(nodes, adjacencyList, start)
 }
 
 func bellmanFordFunc(nodes []string, adjacencyList map[string]map[string]int, start string) {
@@ -75,4 +76,7 @@ func dijkstrasFunc(nodes []string, adjacencyList map[string]map[string]int, star
 		fmt.Println(err.Error())
 	}
 	fmt.Println(gRepo.Return())
+	g := _graphUsecase.NewDjikstras(gRepo.Return())
+	g.Process(start)
+	fmt.Println(g.Return())
 }
