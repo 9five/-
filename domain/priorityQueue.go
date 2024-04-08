@@ -39,7 +39,7 @@ func (pq *PriorityQueue) Pop() any {
 	return item
 }
 
-func (pq *PriorityQueue) update(item *Item, value string, priority int) {
+func (pq *PriorityQueue) Update(item *Item, value string, priority int) {
 	item.Value = value
 	item.Priority = priority
 	heap.Fix(pq, item.Index)
