@@ -2,6 +2,7 @@ package usecase
 
 import (
 	"algorithm/domain"
+	"context"
 	"fmt"
 )
 
@@ -19,7 +20,7 @@ func (is *InsertionSortUsecase) PrintAry() []int {
 	return is.ary
 }
 
-func (is *InsertionSortUsecase) Sort() error {
+func (is *InsertionSortUsecase) Sort(ctx context.Context) error {
 
 	for i := 0; i < len(is.ary); i++ {
 		node := is.ary[i]
